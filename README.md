@@ -1,5 +1,5 @@
 # 事件分发机制
-当触摸屏幕时，会调用 ViewGroup 的 dispatchTouchEvent 方法和 onInterceptTouchEvent方法，由此来判断是否拦截此 event 事件。onInterceptTouchEvent方法返回true，代表拦截此事件，此事件将交由该 ViewGroup 的 onTouchEvent 方法处理；若返回false，则调用子 View 的 dispatchTouchEvent 方法，将该事件传递到下一个 View中，继续下一轮分发事件。上述过程的伪代码如下：
+当触摸屏幕时，会调用 ViewGroup 的 dispatchTouchEvent 方法和 onInterceptTouchEvent 方法，由此来判断是否拦截此 event 事件。onInterceptTouchEvent 方法返回 true，代表拦截此事件，此事件将交由该 ViewGroup 的 onTouchEvent 方法处理；若返回 false，则调用子 View 的 dispatchTouchEvent 方法，将该事件传递到下一个 View 中，继续下一轮分发事件。上述过程的伪代码如下：
 
     public boolean dispatchTouchEvent(MotionEvent ev) {
         boolean consume = false;
@@ -21,7 +21,8 @@
 1. 重写 ViewGroup 的 onInterceptTouchEvent 方法。
 2. 对于 ACTION_DOWN 事件返回 false。（原因参考上述第二条）
 3. 对于 ACTION_MOVE 事件，根据具体的要求去处理。若此父控件需要此事件，则返回 true；否则返回 false。
-4. 对于 ACTION_UP 事件，一般默认返回 false。因为若返回 true，子 View 将无法接收到此 ACTION_UP 事件，造成其无法监听点击事件（子 View 的点击事件监听触发条件为接收到 ACTION_DOWN 和 ACTION_UP
+4. 对于 ACTION_UP 事件，一般默认返回 false。因为若返回 true，子 View 将无法接收到此 ACTION_UP 事件，造成其无法监听点击事件（子 View 的点击事件监听触发条件为接收到 ACTION_DOWN 和 ACTION_UP。
+
 上述过程的代码如下：
 
 ```java
