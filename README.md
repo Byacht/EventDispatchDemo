@@ -56,8 +56,8 @@
         mLastYIntercept = y;
         return intercepted;
     }
-    
-    上述的方法称为外部拦截法，处理滑动冲突还有另外一种思路，也称为内部拦截法，其具体思路为令父容器不拦截事件，而直接将事件传递给子 View，当父容器需要此事件时，在子 View 中调用父容器的 requestDisallowInterceptTouchEvent(false) 方法，令父容器去拦截事件。具体的步骤如下：
+```
+上述的方法称为外部拦截法，处理滑动冲突还有另外一种思路，也称为内部拦截法，其具体思路为令父容器不拦截事件，而直接将事件传递给子 View，当父容器需要此事件时，在子 View 中调用父容器的 requestDisallowInterceptTouchEvent(false) 方法，令父容器去拦截事件。具体的步骤如下：
 
 1. 重写子 View 的 dispatchTouchEvent  方法。
 2. 对于 ACTION_DOWN 事件，调用 requestDisallowInterceptTouchEvent(true) 方法，令父容器对于后续事件都不拦截。
