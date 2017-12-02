@@ -1,6 +1,6 @@
 # 事件分发机制
 当触摸屏幕时，会调用 ViewGroup 的 dispatchTouchEvent 方法和 onInterceptTouchEvent 方法，由此来判断是否拦截此 event 事件。onInterceptTouchEvent 方法返回 true，代表拦截此事件，此事件将交由该 ViewGroup 的 onTouchEvent 方法处理；若返回 false，则调用子 View 的 dispatchTouchEvent 方法，将该事件传递到下一个 View 中，继续下一轮分发事件。上述过程的伪代码如下：
-
+```java
     public boolean dispatchTouchEvent(MotionEvent ev) {
         boolean consume = false;
         if(onInterceptTouchEvent(ev)) {
@@ -10,7 +10,7 @@
         }
       	return consume;
     }
-
+```
 - ViewGroup 的onInterceptTouchEvent 默认返回false，即不拦截事件
 - 若ViewGroup 的onInterceptTouchEvent 方法在 MotionEvent.Action_down 方法中返回true，则后续的事件（如MOVE、UP 都将交由该ViewGroup 处理，不会再传递到子 View 中）
 - View 没有 onInterceptTouchEvent 方法，若事件传递到 View，则直接调用其 onTouchEvent方法
