@@ -90,6 +90,7 @@
                default:
                    break;
            }
+           return super.dispatchTouchEvent(event);
     }
     
     # 父 View
