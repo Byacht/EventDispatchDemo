@@ -67,7 +67,7 @@
 6. 对于其它事件，均返回 true。
 
 其代码如下：
-
+```java
     # 子 View
     public boolean dispatchTouchEvent(MotionEvent event) {
            int x = (int) event.getX();
@@ -101,10 +101,10 @@
                return true;
            }
     }
-    
+```    
 
 下面从源码角度分析原因，先来看一下 ViewGroup 的 requestDisallowInterceptTouchEvent 方法：
-
+```java
         @Override
         public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
     
@@ -124,9 +124,9 @@
                 mParent.requestDisallowInterceptTouchEvent(disallowIntercept);
             }
         }
-
+```
 再看一下 ViewGroup 的 dispatchTouchEvent 方法中的一段代码：
-
+```java
     final boolean intercepted;
     if (actionMasked == MotionEvent.ACTION_DOWN
             || mFirstTouchTarget != null) {
@@ -143,6 +143,6 @@
          // so this view group continues to intercept touches.
          intercepted = true;
     }
-
+```
 结合上面两段代码可以看出，当调用requestDisallowInterceptTouchEvent(true)  时，disallowIntercept 将变为 true（具体为什么是属于细节的东西，就不深究了...），于是将跳过 onInterceptTouchEvent() 方法，即不拦截事件。当调用requestDisallowInterceptTouchEvent(false) 时，disallowIntercept 为 false，onInterceptTouchEvent() 方法会被调用，而我们重写了 ViewGroup 的 onInterceptTouchEvent() 方法，让其对于除 ACTION_DOWN 事件之外都返回 true，于是父容器就拦截了事件。
 
